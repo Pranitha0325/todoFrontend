@@ -1,0 +1,33 @@
+<div class="container">
+    <h1>To Do List</h1>
+    <form [formGroup]="todoForm" class="todo-form">
+      <mat-form-field class="todo-form-field">
+        <label class="mb-3">Enter task</label>
+        <input matInput  formControlName="task" />
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="btn" (click)="addItem()">
+        Add
+      </button>
+    </form>
+    <ul class="todo-list">
+      <li *ngFor="let item of items; index as i" class="todo-list-item">
+        <div class="todo-task">
+          <mat-checkbox *ngIf="!item.isEditing" color="primary"> {{ item.task | titlecase }} </mat-checkbox>
+          <mat-form-field *ngIf="item.isEditing" subscriptSizing="dynamic">
+            <label>Task</label>
+            <input matInput #editInputField [(ngModel)]="item.task" (keydown.enter)="editItem(i)">
+          </mat-form-field>
+        </div>
+        <div class="buttons">
+          <div *ngIf="item.isEditing; else notInEditMode">
+            <mat-icon class="confirm" (click)="editItem(i)">check</mat-icon>
+          </div>
+          <ng-template #notInEditMode>
+            <mat-icon class="edit" (click)="editItem(i) ">edit</mat-icon>
+          </ng-template>
+          <mat-icon class="delete" (click)="deleteItem(i)">delete</mat-icon>
+        </div>
+      </li>
+    </ul>
+  </div>
+  
